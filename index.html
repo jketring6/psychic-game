@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Psychic Game Homework</title>
+</head>
+<body>
+	<div id="container">
+		<h1>The Psychic Game</h1>
+		<hr>
+		<div id="win-counter"><p>Wins: 0</p></div>
+		
+		<div id="losses-counter"><p>Losses: 0</p></div>
+		
+		<div id="guesses-counter"></div>
+		
+		<div id="letter-tracker"><p>Your guesses so far: </p></div>
+	</div>
+
+
+	<script type="text/javascript">
+
+		var wins = 0;
+		var losses = 0;
+		var guesses = 9;
+		var guessAttempts = 9;
+		var alreadyGuessed = [];
+		var guessedLetters = null;
+
+		var compLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+		var compRandomLetter = compLetters[Math.floor(Math.random() * compLetters.length)];
+
+		console.log(compRandomLetter);
+
+		var reloadGuessAttemps = function() {
+			document.querySelector("#guesses-counter").innerHTML = "Guesses Remaining: " + guessAttempts;
+		}
+
+		var reloadLetterGuesses = function() {
+			this.guessedLetters = this.compLetters[Math.floor(Math.random() * this.compLetters.length)];
+		}
+
+		var reloadLettersGuessedAlready = function() {
+			document.querySelector("#letter-tracker").innerHTML = "Your guesses so far: " + alreadyGuessed.join(", ");
+		}
+
+		var resetGame = function () {
+			guesses = 9;
+			guessAttempts = 9;
+			alreadyGuessed = [];
+			+
+			reloadGuessAttemps();
+			reloadLetterGuesses();
+			reloadLettersGuessedAlready();
+		}
+
+		reloadGuessAttemps();
+
+		reloadLetterGuesses();
+
+		document.onkeyup = function(event) {
+
+			guessAttempts--;
+
+			var userInput = event.key;
+
+			alreadyGuessed.push(userInput);
+
+			reloadLetterGuesses();
+
+			reloadLettersGuessedAlready();
+
+			if (guessAttempts > 0) {
+
+				if (userInput == guessedLetters) {
+					wins++;
+					document.querySelector("#win-counter").innerHTML = "<p>Wins: " + wins + "</p>";
+					resetGame();
+				}
+				else if (guessAttempts == 0) {
+					losses++;
+					document.querySelector("#losses-counter").innerHTML = "<p>Loses: " + loses + "</p>";
+					resetGame();
+				}
+			}
+		}
+
+	</script>
+
+</body>
+</html>
